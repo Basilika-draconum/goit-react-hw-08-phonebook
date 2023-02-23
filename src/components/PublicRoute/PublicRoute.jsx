@@ -1,8 +1,9 @@
-import { selectToken } from ' redux/auth/aut-selector';
+import { selectToken } from ' redux/auth/auth-selector';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 export const PublicRoute = () => {
   const token = useSelector(selectToken);
-  return token ? <Outlet /> : <Navigate to={'/login'} />;
+  const location = useLocation();
+  return token ? <Navigate to={location.state?.from ?? '/'} /> : <Outlet />;
 };

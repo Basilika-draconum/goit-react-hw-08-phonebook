@@ -3,9 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import MaterialLink from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,7 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerThunk } from ' redux/auth/auth-thunk';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -26,9 +24,9 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <MaterialLink color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </MaterialLink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -69,7 +67,7 @@ export const RegisterPage = () => {
         setEmail('');
         setPassword('');
         setFullName('');
-        navigate('/login');
+        navigate('/contacts');
       })
       .catch(() => alert('Error'));
   };
@@ -101,7 +99,7 @@ export const RegisterPage = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  // autoComplete="given-name"
+                  autoComplete="given-name"
                   name="fullName"
                   value={fullName}
                   onChange={handleChange}
@@ -121,7 +119,7 @@ export const RegisterPage = () => {
                   name="email"
                   value={email}
                   onChange={handleChange}
-                  // autoComplete="email"
+                  autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,14 +135,6 @@ export const RegisterPage = () => {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -154,10 +144,10 @@ export const RegisterPage = () => {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                <Link to="/login" variant="body2">
+                  <MaterialLink>Already have an account? Sign in</MaterialLink>
                 </Link>
               </Grid>
             </Grid>

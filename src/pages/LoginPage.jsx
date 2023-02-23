@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import MaterialLink from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginThunk } from ' redux/auth/auth-thunk';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -25,9 +26,9 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <MaterialLink color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </MaterialLink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -40,6 +41,7 @@ export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -58,7 +60,10 @@ export const LoginPage = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(loginThunk({ email, password }));
+    dispatch(loginThunk({ email, password }))
+      .unwrap()
+      .then(navigate('/contacts'))
+      .catch(() => alert('Uncorrect log in'));
   };
 
   return (
@@ -121,15 +126,12 @@ export const LoginPage = () => {
             >
               Log In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Grid container justifyContent="center">
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link to="/register" variant="body2">
+                  <MaterialLink>
+                    {"Don't have an account? Sign Up"}
+                  </MaterialLink>
                 </Link>
               </Grid>
             </Grid>

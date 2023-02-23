@@ -5,12 +5,14 @@ import {
   registerService,
   token,
 } from 'services/authApi';
+import { omit } from 'lodash';
 
 export const registerThunk = createAsyncThunk(
   'auth/register',
   async (credentionals, thunkAPI) => {
     try {
       const data = await registerService(credentionals);
+      thunkAPI.dispatch(loginThunk(omit(credentionals, ['fullName'])));
       return data;
     } catch (error) {
       thunkAPI.rejectWithValue(error.message);

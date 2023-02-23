@@ -11,7 +11,6 @@ import {
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { fetchContacts } from 'services/contactsApi';
 import css from './formPhonebook.module.scss';
 
 const FormPhonebook = () => {
@@ -25,8 +24,6 @@ const FormPhonebook = () => {
   };
 
   const contacts = useSelector(selectContacts);
-  // const isLoading = useSelector(selectIsLoading);
-  // const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(getContactsThunk());
