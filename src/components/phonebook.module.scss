@@ -1,0 +1,13 @@
+.contacts{
+margin-bottom: 0;
+}
+.main{
+    margin: 10px auto;
+    padding: 0 15px;
+    background-color: rgb(245, 229, 245);
+    width:500px;
+    &_title{
+        margin:0;
+        padding-top: 20px;
+    }
+}

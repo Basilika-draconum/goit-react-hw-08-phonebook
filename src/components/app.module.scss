@@ -1,0 +1,13 @@
+.header{
+    background-color: rgb(152, 75, 169);
+    &_nav{
+        padding: 20px;
+        display: flex;
+        gap:20px;
+    }
+    &_link{
+        color:aliceblue;
+        text-decoration: none;
+        font-size: 20px;
+    }
+}
