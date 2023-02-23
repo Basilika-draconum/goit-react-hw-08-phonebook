@@ -1,5 +1,7 @@
 .header{
     background-color: rgb(152, 75, 169);
+    display: flex;
+    justify-content: space-between;
     &_nav{
         padding: 20px;
         display: flex;
@@ -9,5 +11,26 @@
         color:aliceblue;
         text-decoration: none;
         font-size: 20px;
+    }
+    
+    &_logout{
+        background-color: transparent;
+        border:none;
+        color: aliceblue;
+        font-size: 20px;
+        padding-right: 40px;
+        cursor: pointer;
+        &:hover{
+            animation: animation 2s 1 linear;
+        }
+    }
+}
+@keyframes animation {
+    50% {
+        color: #aaa;
+    }
+
+    100% {
+        color: #f00;
     }
 }

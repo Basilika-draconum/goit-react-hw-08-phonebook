@@ -8,7 +8,6 @@ const Phonebook = () => {
     <div className={css.main}>
       <h2 className={css.main_title}>Phonebook</h2>
       <FormPhonebook />
-
       <Filter />
       <ContactsList />
     </div>

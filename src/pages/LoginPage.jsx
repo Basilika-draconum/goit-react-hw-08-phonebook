@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginThunk } from ' redux/auth/auth-thunk';
 
 function Copyright(props) {
   return (
@@ -33,14 +36,29 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export function LoginPage() {
+export const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+
+      default:
+        throw new Error();
+    }
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatch(loginThunk({ email, password }));
   };
 
   return (
@@ -59,7 +77,7 @@ export function LoginPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Log in
           </Typography>
           <Box
             component="form"
@@ -75,6 +93,8 @@ export function LoginPage() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={handleChange}
               autoFocus
             />
             <TextField
@@ -86,6 +106,8 @@ export function LoginPage() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -97,7 +119,7 @@ export function LoginPage() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Log In
             </Button>
             <Grid container>
               <Grid item xs>
@@ -117,4 +139,4 @@ export function LoginPage() {
       </Container>
     </ThemeProvider>
   );
-}
+};

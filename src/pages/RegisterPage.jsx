@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { registerThunk } from ' redux/auth/auth-thunk';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -33,14 +37,41 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export function RegisterPage() {
+export const RegisterPage = () => {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'fullName':
+        setFullName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      default:
+        throw new Error();
+    }
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatch(registerThunk({ name: fullName, email, password }))
+      .unwrap()
+      .then(() => {
+        setEmail('');
+        setPassword('');
+        setFullName('');
+        navigate('/login');
+      })
+      .catch(() => alert('Error'));
   };
 
   return (
@@ -59,7 +90,7 @@ export function RegisterPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Registration
           </Typography>
           <Box
             component="form"
@@ -70,8 +101,10 @@ export function RegisterPage() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
+                  // autoComplete="given-name"
                   name="fullName"
+                  value={fullName}
+                  onChange={handleChange}
                   required
                   fullWidth
                   id="fullName"
@@ -86,7 +119,9 @@ export function RegisterPage() {
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
+                  value={email}
+                  onChange={handleChange}
+                  // autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -97,6 +132,8 @@ export function RegisterPage() {
                   label="Password"
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={handleChange}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -130,4 +167,4 @@ export function RegisterPage() {
       </Container>
     </ThemeProvider>
   );
-}
+};
