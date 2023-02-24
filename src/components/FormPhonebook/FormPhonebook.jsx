@@ -1,22 +1,19 @@
 // import { addContactAction } from ' redux/contacts/contact-slice';
-import {
-  getContactsThunk,
-  postContactThunk,
-} from ' redux/contacts/contacts-thunk';
+import { postContactThunk } from ' redux/contacts/contacts-thunk';
 import {
   selectContacts,
   // selectError,
   // selectIsLoading,
 } from ' redux/contacts/contactsSelector';
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import css from './formPhonebook.module.scss';
 
 const FormPhonebook = () => {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const actions = { name: setName, phone: setPhone };
+  const [number, setNumber] = useState('');
+  const actions = { name: setName, number: setNumber };
   const dispatch = useDispatch();
   const handleChange = e => {
     const { name, value } = e.target;
@@ -25,13 +22,13 @@ const FormPhonebook = () => {
 
   const contacts = useSelector(selectContacts);
 
-  useEffect(() => {
-    dispatch(getContactsThunk());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getContactsThunk());
+  // }, [dispatch]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    const newContact = { name, phone, id: nanoid() };
+    const newContact = { name, number, id: nanoid() };
     if (
       contacts.some(
         item => item.name.toLowerCase().trim() === name.toLowerCase().trim()
@@ -43,7 +40,7 @@ const FormPhonebook = () => {
     dispatch(postContactThunk(newContact));
 
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
@@ -63,15 +60,15 @@ const FormPhonebook = () => {
           required
         />
 
-        <label className={css.formLabel} htmlFor="phone">
-          Phone
+        <label className={css.formLabel} htmlFor="number">
+          Number
         </label>
         <input
           className={css.formInput}
           onChange={handleChange}
           type="tel"
-          name="phone"
-          value={phone}
+          name="number"
+          value={number}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

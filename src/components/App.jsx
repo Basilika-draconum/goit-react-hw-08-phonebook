@@ -1,14 +1,18 @@
-import { LoginPage } from 'pages/LoginPage';
-import { RegisterPage } from 'pages/RegisterPage';
+// import { LoginPage } from 'pages/LoginPage';
+// import { RegisterPage } from 'pages/RegisterPage';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import Phonebook from './Phonebook';
+// import Phonebook from './Phonebook';
 import css from './app.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { logoutThunk, refreshThunk } from ' redux/auth/auth-thunk';
 import { PrivateRoute } from './PrivateRoute/PrivateRoute';
 import { PublicRoute } from './PublicRoute/PublicRoute';
 import { selectToken } from ' redux/auth/auth-selector';
+
+const RegisterPage = lazy(() => import('../pages/RegisterPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage'));
+const Phonebook = lazy(() => import('../components/Phonebook'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -50,16 +54,18 @@ export const App = () => {
       </header>
 
       <main>
-        <Routes>
-          <Route path="*" element={<RegisterPage />} />
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="/contacts" element={<Phonebook />} />
-          </Route>
-          <Route path="/" element={<PublicRoute />}>
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="*" element={<RegisterPage />} />
+            <Route path="/" element={<PrivateRoute />}>
+              <Route path="/contacts" element={<Phonebook />} />
+            </Route>
+            <Route path="/" element={<PublicRoute />}>
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </main>
     </div>
   );

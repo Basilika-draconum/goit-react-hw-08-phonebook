@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const authApi = axios.create({
+export const authApi = axios.create({
   baseURL: 'https://connections-api.herokuapp.com/',
 });
 
@@ -20,7 +20,11 @@ export const loginService = async credentials => {
   return data;
 };
 
+export const currentUsersService = async () => {
+  const { data } = await authApi.get('users/current');
+  return data;
+};
+
 export const logoutService = () => {
-  token.unSet();
   return authApi.post('users/logout');
 };

@@ -37,7 +37,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -128,11 +128,11 @@ export const LoginPage = () => {
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/register" variant="body2">
-                  <MaterialLink>
-                    {"Don't have an account? Sign Up"}
-                  </MaterialLink>
-                </Link>
+                {/* <Link to="/register" variant="body2"> */}
+                <MaterialLink to="/register" variant="body2" component={Link}>
+                  {"Don't have an account? Sign Up"}
+                </MaterialLink>
+                {/* </Link> */}
               </Grid>
             </Grid>
           </Box>
@@ -142,3 +142,5 @@ export const LoginPage = () => {
     </ThemeProvider>
   );
 };
+
+export default LoginPage;
